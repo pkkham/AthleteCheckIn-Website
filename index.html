@@ -22,17 +22,17 @@
 </div>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
-<?php require dirname(__FILE__).'/android_login_api/include/DB_Functions.php';
+<?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
     $db = new DB_Functions();
     if (isset($_POST['user']) && isset($_POST['pass'])) {
         $username = $_POST['user'];
         $password = $_POST['pass'];  
         if ($db->checkAdmin($username, $password)) {
-            $var = true;
+            $var = "Correct Login";
         } else {
-            $var = false;
+            $var = "Bad Login";
         }
-        echo $var;
+        echo "<font color=\"white\">" . $var . "</font>";
     } 
 ?>
   </body>

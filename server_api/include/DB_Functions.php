@@ -105,7 +105,7 @@ class DB_Functions {
     public function hashSSHA($password) {
  
         $salt = sha1(rand());
-        $salt = substr($salt, 0, 10);
+        $salt = substr($salt, 0, 100);
         $encrypted = base64_encode(sha1($password . $salt, true) . $salt);
         $hash = array("salt" => $salt, "encrypted" => $encrypted);
         return $hash;
@@ -144,14 +144,33 @@ class DB_Functions {
         $stmt = $this->conn->prepare("SELECT * FROM admin WHERE user = ?");
         $stmt->bind_param("s", $username);
         if ($stmt->execute()) {
-            $user = $stmt->get_result()->getch_assoc();
+            $user = $stmt->get_result()->fetch_assoc();
             
             $hash = $this->checkhashSSHA($user["salt"], $password);
-            if ($hash == $user["encrypted_password"]) {
+            if ($hash == $user["encrypted_pass"]) {
                 return true;
             }
         }
         return false;
+    }
+    
+    public function addPings($username, $crn, $date, $absent, $tardy, $listOfPings) {
+        $stmt = $this->conn->prepare("INSERT INTO attendanceHistory(athlete, crn, date, absent, tardy, gps) VALUES(?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssiis", $username, $crn, $date, $absent, $tardy, $listOfPings);
+        $result = $stmt->execute();
+        $stmt->close();
+ 
+        // check for successful store
+        if ($result) {
+            $stmt = $this->conn->prepare("SELECT * FROM attendanceHistory WHERE athlete = ? AND date = ? AND crn = ?");
+            $stmt->bind_param("sss", $username, $date, $crn);
+            $stmt->execute();
+            $user = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            return $user;
+        } else {
+            return false;
+        }
     }
 }
  
