@@ -28,11 +28,10 @@
         $username = $_POST['user'];
         $password = $_POST['pass'];  
         if ($db->checkAdmin($username, $password)) {
-            $var = "Correct Login";
+            
         } else {
             $var = "Bad Login";
         }
-        echo "<font color=\"white\">" . $var . "</font>";
     } 
 ?>
   </body>
