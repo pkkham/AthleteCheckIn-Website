@@ -32,6 +32,11 @@
         } else {
             $var = "Bad Login";
         }
+        $var = "";
+        $users = $db->getAthleteList();
+        foreach ($users as &$user) {
+            $var = $var . $user['name'] ."<br>";
+        }
         echo "<font color=\"white\">" . $var . "</font>";
     } 
 ?>
