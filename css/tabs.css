@@ -99,3 +99,42 @@
     color: orange;
     } 
 }
+
+.test{
+    width: wrap;
+    height: wrap;
+    text-align: center;
+    font-size: xx-large;
+    padding-top: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: Raleway, sans-serif;
+    border:1px solid #000b62;
+    background-color: orange;
+    display:hidden; 
+    position:absolute;
+    top: 50%; 
+    left: 40%; 
+    margin-top: -100px;        
+    margin-left: -100px; 
+    border-radius: 12px;
+}
+
+.button {
+    font-family: Raleway, sans-serif;
+    background-color: #000b62;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+input {
+    color:white;
+}
