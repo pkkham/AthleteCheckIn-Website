@@ -1,5 +1,3 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-
 <html>
 	<style>
         div.cssmenu {
@@ -35,26 +33,13 @@
     <body>  
         <div id='cssmenu' style="margin-bottome:20px">
             <ul>
-                <li class='active'><a href='#'>Home</a></li>
-                <li><a href='#'>Pending Registrations</a></li>
-                <li><a href='#'>Upload a File</a></li>
-                <li><a href='#'>View Athletes</a></li>
+                <li><a href='http://conquestiamc.com/welcome.html'>Home</a></li>
+                <li><a href='http://conquestiamc.com/pendingreg.html'>Pending Registrations</a></li>
+                <li><a href='http://conquestiamc.com/upload.html'>Upload a File</a></li>
+                <li class='active'><a href='#'>View Athletes</a></li>
             </ul>
         </div>
 		
-
-<?php 
-    $rows = array();
-    $rows[0]['name'] = "tkh0006"
-    $rows[0]['sports'] = "football~soccer"
-    $rows[0]['counselor'] = "Bob T Builder"
-
-    $rows[1]['name'] = "onm0002"
-    $rows[1]['sports'] = "gymnastics"
-    $rows[1]['counselor'] = "Bob T Builder"
-
-        
-?>
     <div class="CSSTable" >
 		<table border="1" style="width:80%" >
 			<tr>
@@ -63,12 +48,15 @@
 				<th>Counselor</th>
 			</tr>
             
-            <?php foreach ($rows as $row) { ?>
-            <tr>
-                <td><?php echo $URL['name']; ?></td>
-                <td><?php echo $URL['sport']; ?></td>
-                <td><?php echo $URL['counselor']; ?></td>
-            <tr>
+            <?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
+                $db = new DB_Functions();
+                $rows = $db->getAthleteList();
+                foreach ($rows as $row) { ?>
+                <tr>
+                    <td><?php echo $row['name']; ?></td>
+                    <td><?php echo str_replace("~", ", ", $row['sports']); ?></td>
+                    <td><?php echo $row['counselor']; ?></td>
+                <tr>
             <?php } ?>
 	</body>
 </html>

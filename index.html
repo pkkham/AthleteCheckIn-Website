@@ -28,7 +28,7 @@
         $username = $_POST['user'];
         $password = $_POST['pass'];  
         if ($db->checkAdmin($username, $password)) {
-            
+             echo '<meta http-equiv="refresh" content="0; url=http://conquestiamc.com/welcome.html">';
         } else {
             $var = "Bad Login";
         }
