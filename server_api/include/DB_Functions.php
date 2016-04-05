@@ -172,6 +172,25 @@ class DB_Functions {
             return false;
         }
     }
+    
+    public function getAthleteList() {
+        $stmt = $this->conn->prepare("SELECT * FROM athletes");
+        $result = $stmt->execute();
+        if ($result) {
+            $users = array();
+            $rows = array();
+            
+            foreach ($stmt->get_result()->fetch_all() as &$fetched) {
+                $row = array();
+                $row['name'] = $fetched[2];
+                $row['sports'] = $fetched[6];
+                $row['counselor'] = $fetched[8];
+                $rows[] = $row;
+            }
+            return $rows;
+        }
+        return false;
+    }
 }
  
 ?>

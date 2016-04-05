@@ -1,0 +1,62 @@
+<html>
+	<style>
+        div.cssmenu {
+            margin-bottom:20px;
+        }
+        table {
+            width:100%;
+            margin-left: auto;
+            margin-right: auto; 
+        }
+
+        table tr:nth-child(even) {
+            background-color: #eee;
+        }
+        table tr:nth-child(odd) {
+            background-color:#fff6e6;
+        }
+        table th	{
+            background-color: orange;
+            color: white;
+        }
+    </style>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/tabs.css">
+        <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+        <script src="script.js"></script>
+        <title>Welcome</title>
+    </head>
+    
+    <body>  
+        <div id='cssmenu' style="margin-bottome:20px">
+            <ul>
+                <li><a href='http://conquestiamc.com/welcome.html'>Home</a></li>
+                <li><a href='http://conquestiamc.com/pendingreg.html'>Pending Registrations</a></li>
+                <li><a href='http://conquestiamc.com/upload.html'>Upload a File</a></li>
+                <li class='active'><a href='#'>View Athletes</a></li>
+            </ul>
+        </div>
+		
+    <div class="CSSTable" >
+		<table border="1" style="width:80%" >
+			<tr>
+				<th>Athlete Name</th>
+				<th>Sport</th>
+				<th>Counselor</th>
+			</tr>
+            
+            <?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
+                $db = new DB_Functions();
+                $rows = $db->getAthleteList();
+                foreach ($rows as $row) { ?>
+                <tr>
+                    <td><?php echo $row['name']; ?></td>
+                    <td><?php echo str_replace("~", ", ", $row['sports']); ?></td>
+                    <td><?php echo $row['counselor']; ?></td>
+                <tr>
+            <?php } ?>
+	</body>
+</html>
