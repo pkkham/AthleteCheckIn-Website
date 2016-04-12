@@ -2,27 +2,46 @@
 <html lang=''>
 	<style>
 		h1.h1 {
-			color:orange;
+			color:#03244d;
 			padding:2cm 0cm 0cm 2cm;
+			font-family: Raleway, sans-serif;
+			text-align: center;
 		}
 		p.p1 {
 			color:orange;
 			padding:0cm 0cm 0cm 2cm;
 		}
 		table{
+			color:#03244d;
 			padding:2cm 2cm 2cm 2cm;
 			border: 1px solid black;
 			border-collapse:collapse;
+			font-family: Raleway, sans-serif;
+			padding-top: 50px;
+    		padding-left: 20px;
+    		padding-right: 20px;
+			position:absolute;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+			border-radius: 12px;
+    		border-collapse: collapse;
+			left: 32%;
 		}
 		thead,tr,th,td{
 			border: 1px solid black;
 			border-collapse:collapse;
+			font-family: Raleway, sans-serif;
+			padding: 10px;
 		}
 		tr:hover{
 			background-color: #9a9a9a
 		}
 		td:input:checked{
 			background-color:#68f472
+		}
+		th{
+			background-color: #dd550c;
 		}
 	</style>
 	<head>
@@ -40,55 +59,76 @@
 		<div id='cssmenu'>
 			<ul>
 				<li>
-					<a href='#'>Home</a>
+					<a href='welcome.html'>Home</a>
 				</li>
 				<li class='active'>
 					<a href='#'>Pending Registrations</a>
 				</li>
 				<li>
-					<a href='#'>Upload a File</a>
+					<a href='upload.html'>Upload a File</a>
 				</li>
 				<li>
-					<a href='#'>View Athletes</a>
+					<a href='athletes.html'>View Athletes</a>
 				</li>
 			</ul>
 		</div>
 		<h1 class="h1">
 			Pending Registrations
 		</h1>
+        
+        <form method="POST">
+
 		<table>
 			<thead>
 				<tr>
-					<th>
-						<input type ="checkbox" id ="check_all">
-					</th>
-					<th>
-						Name
-					</th>
+                    <th>
+                        
+                    </th>
 					<th>
 						Email
 					</th>
+                    <th>
+                        Username
+                    </th>
 					<th>
 						Date of Request
 					</th>
 				</tr>
 			</thead>
-			<?php
-                $regs = array(
-	                   array("Tom Rogers", "tmr0012", "3/27/2016"), 
-	                   array("Tyler Hoover", "tkh0006", "3/28/2016"), 
-	                   array("Olivia Murphy", "onm0002", "3/29/2016"));
-                $arrlength = count($regs);
-                $sublength = count($regs[0]);
-                for($x = 0; $x < 3; $x++) {
-	               echo "<tr><td> <input type=\"checkbox\" /> </td>";
-	               for($y = 0; $y < 3; $y++){
-		              echo "<td>".$regs[$x][$y]."</td>";
-	               }
+			<?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
+                $db = new DB_Functions();
+                $regs = $db->getPendingAdminRegistrations();
+                foreach ($regs as &$reg) {
+	               echo "<tr><td> <input type=\"checkbox\" name=\"". $reg["username"] . "\"/> </td>";
+                   echo "<td>".$reg["email"]."</td>";
+	               echo "<td>".$reg["username"]."</td>";
+                   echo "<td>".$reg["register_date"]."</td>";
 	               echo "</tr>";
                 }
 			?>
 		</table>
+        
+        <input type="submit" value="Approve" class="button" name="approve"/>
+        <input type="submit" value="Deny" class="button" name="deny" />
+        </form>
+        
+        <?php
+            if (isset($_POST['approve'])) {
+                foreach ($regs as &$reg) {
+                    if (isset($_POST[$reg["username"] . ""])) {;
+                        $db->approveAdmin($reg);
+                    }
+                }
+                echo '<meta http-equiv="refresh" content="0; url=http://conquestiamc.com/pendingRegs.html">';
+            } elseif (isset($_POST['deny'])) {
+                foreach ($regs as $reg) {
+                    if (isset($_POST[$reg["username"] . ""])) {
+                        $db->removePendingAdmin($reg);
+                    }
+                }
+                echo '<meta http-equiv="refresh" content="0; url=http://conquestiamc.com/pendingRegs.html">';
+            }
+        ?>
 	</body>
 <html>
 		

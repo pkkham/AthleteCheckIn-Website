@@ -105,7 +105,7 @@ class DB_Functions {
     public function hashSSHA($password) {
  
         $salt = sha1(rand());
-        $salt = substr($salt, 0, 100);
+        $salt = substr($salt, 0, 10);
         $encrypted = base64_encode(sha1($password . $salt, true) . $salt);
         $hash = array("salt" => $salt, "encrypted" => $encrypted);
         return $hash;
@@ -141,7 +141,7 @@ class DB_Functions {
     }
     
     public function checkAdmin($username, $password) {
-        $stmt = $this->conn->prepare("SELECT * FROM admin WHERE user = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM admin WHERE username = ?");
         $stmt->bind_param("s", $username);
         if ($stmt->execute()) {
             $user = $stmt->get_result()->fetch_assoc();
@@ -177,7 +177,6 @@ class DB_Functions {
         $stmt = $this->conn->prepare("SELECT * FROM athletes");
         $result = $stmt->execute();
         if ($result) {
-            $users = array();
             $rows = array();
             
             foreach ($stmt->get_result()->fetch_all() as &$fetched) {
@@ -190,6 +189,85 @@ class DB_Functions {
             return $rows;
         }
         return false;
+    }
+    
+    public function adminApplyForRegister($email, $username, $password) {
+        $stmt = $this->conn->prepare("SELECT * FROM admin_pending_registration WHERE username = ? OR email = ?");
+        $stmt->bind_param("ss", $username, $email);
+        
+        if ($stmt->execute()) {
+            $stmt->fetch();
+            if ($stmt->num_rows > 0) {
+                $result = array();
+                $result['success'] = false;
+                $result['message'] = "Username or Email already registered.";
+                $stmt->close();
+                return $result;
+            }
+        }
+        $stmt->close();
+        
+        $stmt = $this->conn->prepare("SELECT * FROM AthleteCheckIn.admin WHERE username = ? OR email = ?");
+        $stmt->bind_param("ss", $username, $email);
+        
+        if($stmt->execute()) {
+            $stmt->fetch();
+            if ($stmt->num_rows > 0) {
+                $stmt->close();
+                return array("success" => false, "message" => "Username or Email already exist.");
+            }
+        }
+        $stmt->close();
+        
+        $hash = $this->hashSSHA($password);
+        $stmt = $this->conn->prepare("INSERT INTO admin_pending_registration(username, encrypted_password, salt, email, registration_date) VALUES(?, ?, ?, ?, now())");
+        $stmt->bind_param("ssss", $username, $hash["encrypted"], $hash["salt"], $email);
+        $result = $stmt->execute();
+        $stmt->close();
+        if ($result) {
+            return array("success" => true, "message" => "Successfully registered");
+        } else {
+            return array("success" => false, "message" => "Username or email already registered");
+        }
+    }
+    
+    public function getPendingAdminRegistrations() {
+        $stmt = $this->conn->prepare("SELECT * FROM admin_pending_registration");
+        $result = $stmt->execute();
+        if ($result) {
+            $rows = array();
+            foreach ($stmt->get_result()->fetch_all() as &$fetched) {
+                $row = array();
+                $row['username'] = $fetched[1];
+                $row['encrypted_pass'] = $fetched[2];
+                $row['salt'] = $fetched[3];
+                $row['email'] = $fetched[4];
+                $row['register_date'] = $fetched[5];
+                $rows[] = $row;
+            }
+            return $rows;
+        }
+    }
+    
+    public function removePendingAdmin($admin) {
+        $stmt = $this->conn->prepare("DELETE FROM AthleteCheckIn.admin_pending_registration WHERE username = \"" . $admin["username"] . "\"");
+        $stmt->execute();
+        $stmt->close();
+    }
+    
+    public function approveAdmin($admin) {
+        $stmt = $this->conn->prepare("INSERT INTO AthleteCheckIn.admin(username, encrypted_pass, salt, email) VALUES(?, ?, ?, ?)");
+        $user = $admin['username'];
+        $pass = $admin['encrypted_pass'];
+        $salt = $admin['salt'];
+        $email = $admin['email'];
+        $stmt->bind_param("ssss", $user, $pass, $salt, $email);
+        $stmt->execute();
+        $stmt->close();
+        
+        $stmt = $this->conn->prepare("DELETE FROM AthleteCheckIn.admin_pending_registration WHERE username = \"" . $admin["username"] . "\"");
+        $stmt->execute();
+        $stmt->close();
     }
 }
  
