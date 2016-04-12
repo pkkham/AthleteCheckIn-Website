@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang=''>
+	<style>
+		h1.h1 {
+			color:orange;
+			padding:2cm 0cm 0cm 2cm;
+		}
+		p.p1 {
+			color:orange;
+			padding:0cm 0cm 0cm 2cm;
+		}
+		table{
+			padding:2cm 2cm 2cm 2cm;
+			border: 1px solid black;
+			border-collapse:collapse;
+		}
+		thead,tr,th,td{
+			border: 1px solid black;
+			border-collapse:collapse;
+		}
+		tr:hover{
+			background-color: #9a9a9a
+		}
+		td:input:checked{
+			background-color:#68f472
+		}
+	</style>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/tabs.css">
+		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+		<script src="script.js"></script>
+		<title>
+			CSS MenuMaker
+		</title>
+	</head>
+	<body>
+		<div id='cssmenu'>
+			<ul>
+				<li>
+					<a href='#'>Home</a>
+				</li>
+				<li class='active'>
+					<a href='#'>Pending Registrations</a>
+				</li>
+				<li>
+					<a href='#'>Upload a File</a>
+				</li>
+				<li>
+					<a href='#'>View Athletes</a>
+				</li>
+			</ul>
+		</div>
+		<h1 class="h1">
+			Pending Registrations
+		</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>
+						<input type ="checkbox" id ="check_all">
+					</th>
+					<th>
+						Name
+					</th>
+					<th>
+						Email
+					</th>
+					<th>
+						Date of Request
+					</th>
+				</tr>
+			</thead>
+			<?php
+                $regs = array(
+	                   array("Tom Rogers", "tmr0012", "3/27/2016"), 
+	                   array("Tyler Hoover", "tkh0006", "3/28/2016"), 
+	                   array("Olivia Murphy", "onm0002", "3/29/2016"));
+                $arrlength = count($regs);
+                $sublength = count($regs[0]);
+                for($x = 0; $x < 3; $x++) {
+	               echo "<tr><td> <input type=\"checkbox\" /> </td>";
+	               for($y = 0; $y < 3; $y++){
+		              echo "<td>".$regs[$x][$y]."</td>";
+	               }
+	               echo "</tr>";
+                }
+			?>
+		</table>
+	</body>
+<html>
+		
