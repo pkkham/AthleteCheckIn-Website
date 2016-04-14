@@ -3,7 +3,7 @@
 	<style>
 		h1.h1 {
 			color:#03244d;
-			padding:2cm 0cm 0cm 2cm;
+            padding: 1cm 0cm 0cm 0cm;
 			font-family: Raleway, sans-serif;
 			text-align: center;
 		}
@@ -13,20 +13,13 @@
 		}
 		table{
 			color:#03244d;
-			padding:2cm 2cm 2cm 2cm;
 			border: 1px solid black;
 			border-collapse:collapse;
 			font-family: Raleway, sans-serif;
-			padding-top: 50px;
-    		padding-left: 20px;
-    		padding-right: 20px;
-			position:absolute;
-			margin-left: auto;
-			margin-right: auto;
 			text-align: center;
 			border-radius: 12px;
     		border-collapse: collapse;
-			left: 32%;
+            margin: 0px auto;
 		}
 		thead,tr,th,td{
 			border: 1px solid black;
@@ -43,6 +36,10 @@
 		th{
 			background-color: #dd550c;
 		}
+        
+        form {
+            text-align: center;
+        }
 	</style>
 	<head>
 		<meta charset='utf-8'>
@@ -52,10 +49,13 @@
 		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 		<script src="script.js"></script>
 		<title>
-			CSS MenuMaker
+			Pending Registrations - Athlete Check-In
 		</title>
+        
 	</head>
 	<body>
+        <div id="wrap">
+            <h1 align="center">Athlete Check-In</h1>
 		<div id='cssmenu'>
 			<ul>
 				<li>
@@ -72,13 +72,11 @@
 				</li>
 			</ul>
 		</div>
-		<h1 class="h1">
+		<h1 class="h1" align="center">
 			Pending Registrations
 		</h1>
         
-        <form method="POST">
-
-		<table>
+        <table>
 			<thead>
 				<tr>
                     <th>
@@ -95,6 +93,7 @@
 					</th>
 				</tr>
 			</thead>
+            
 			<?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
                 $db = new DB_Functions();
                 $regs = $db->getPendingAdminRegistrations();
@@ -107,10 +106,12 @@
                 }
 			?>
 		</table>
-        
-        <input type="submit" value="Approve" class="button" name="approve"/>
-        <input type="submit" value="Deny" class="button" name="deny" />
+        <br>
+        <form method="POST" >
+            <input type="submit" value="Approve" class="button" name="approve"/>
+            <input type="submit" value="Deny" class="button" name="deny" />
         </form>
+        
         
         <?php
             if (isset($_POST['approve'])) {
@@ -130,5 +131,6 @@
             }
         ?>
 	</body>
+        </div>
 <html>
 		

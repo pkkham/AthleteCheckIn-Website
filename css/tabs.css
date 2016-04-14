@@ -144,3 +144,15 @@
 input {
     color:white;
 }
+
+#wrap {
+    width: 950px;
+    margin: 0px auto;
+    background: white;
+    height: inherit;
+}
+
+html, body {
+    background: #03244d;
+    height: 100%;
+}
