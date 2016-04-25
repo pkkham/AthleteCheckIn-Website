@@ -269,6 +269,25 @@ class DB_Functions {
         $stmt->execute();
         $stmt->close();
     }
+    
+    public function getAthleteDetails($username) {
+        $stmt = $this->conn->prepare("SELECT * FROM attendanceHistory WHERE athlete = ?");
+        $stmt->bind_param("s", $username);
+        $result = $stmt->execute(); 
+        if($result) {
+            $classes = array();
+            foreach ($stmt->get_result()->fetch_all() as &$fetched) {
+                $row = array();
+                $row['date'] = $fetched[3];
+                $row['CRN'] = $fetched[2];
+                $row['absent'] = $fetched[4];
+                $row['tardy'] = $fetched[5];
+                $classes[] = $row;
+            }
+            return $classes;
+        }
+        return false;
+    }
 }
  
 ?>

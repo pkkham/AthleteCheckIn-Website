@@ -5,7 +5,6 @@ $db = new DB_Functions();
  
 // json response array
 $response = array("error" => FALSE);
- 
 if (isset($_GET['name']) && isset($_GET['email']) && isset($_GET['password'])) {
  
     // receiving the post params
