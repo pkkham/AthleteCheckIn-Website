@@ -2,7 +2,7 @@
 <html lang=''>
 	<style>
 		h1.h1 {
-			color:#03244d;
+			color: white;
             padding: 1cm 0cm 0cm 0cm;
 			font-family: Raleway, sans-serif;
 			text-align: center;
@@ -40,6 +40,7 @@
         form {
             text-align: center;
         }
+        
 	</style>
 	<head>
 		<meta charset='utf-8'>
@@ -54,8 +55,6 @@
         
 	</head>
 	<body>
-        <div id="wrap">
-            <h1 align="center">Athlete Check-In</h1>
 		<div id='cssmenu'>
 			<ul>
 				<li>
@@ -94,7 +93,7 @@
 				</tr>
 			</thead>
             
-			<?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
+			<!--<?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
                 $db = new DB_Functions();
                 $regs = $db->getPendingAdminRegistrations();
                 foreach ($regs as &$reg) {
@@ -104,16 +103,16 @@
                    echo "<td>".$reg["register_date"]."</td>";
 	               echo "</tr>";
                 }
-			?>
+			?>-->
 		</table>
         <br>
         <form method="POST" >
-            <input type="submit" value="Approve" class="button" name="approve"/>
-            <input type="submit" value="Deny" class="button" name="deny" />
+            <input type="submit" value="Approve" class="button button-pending" name="approve" />
+            <input type="submit" value="Deny" class="button button-pending" name="deny" />
         </form>
         
         
-        <?php
+        <!--<?php
             if (isset($_POST['approve'])) {
                 foreach ($regs as &$reg) {
                     if (isset($_POST[$reg["username"] . ""])) {;
@@ -129,8 +128,7 @@
                 }
                 echo '<meta http-equiv="refresh" content="0; url=http://conquestiamc.com/pendingRegs.html">';
             }
-        ?>
+        ?>-->
 	</body>
-        </div>
 <html>
 		

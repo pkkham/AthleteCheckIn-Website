@@ -135,6 +135,13 @@
     border-radius: 12px;
 }
 
+.button-pending {
+    border: 1px solid white;
+    background-color: gainsboro;
+    color: #03244d;
+    
+}
+
 .CSSTable {
     font-family: Raleway, sans-serif;
     border-radius: 12px;
@@ -145,12 +152,7 @@ input {
     color:white;
 }
 
-#wrap {
-    width: 950px;
-    margin: 0px auto;
-    background: white;
-    height: inherit;
-}
+
 
 html, body {
     background: #03244d;
