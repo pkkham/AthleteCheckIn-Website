@@ -27,6 +27,9 @@
 			font-family: Raleway, sans-serif;
 			padding: 10px;
 		}
+        table tr {
+            background-color:#fff6e6;
+        }
 		tr:hover{
 			background-color: #9a9a9a
 		}
@@ -57,17 +60,14 @@
 	<body>
 		<div id='cssmenu'>
 			<ul>
-				<li>
-					<a href='welcome.html'>Home</a>
+                <li>
+					<a href='athletes.html'>View Athletes</a>
 				</li>
 				<li class='active'>
 					<a href='#'>Pending Registrations</a>
 				</li>
 				<li>
 					<a href='upload.html'>Upload a File</a>
-				</li>
-				<li>
-					<a href='athletes.html'>View Athletes</a>
 				</li>
 			</ul>
 		</div>
@@ -93,7 +93,7 @@
 				</tr>
 			</thead>
             
-			<!--<?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
+			<?php require dirname(__FILE__).'/server_api/include/DB_Functions.php';
                 $db = new DB_Functions();
                 $regs = $db->getPendingAdminRegistrations();
                 foreach ($regs as &$reg) {
@@ -103,7 +103,7 @@
                    echo "<td>".$reg["register_date"]."</td>";
 	               echo "</tr>";
                 }
-			?>-->
+			?>
 		</table>
         <br>
         <form method="POST" >
@@ -112,7 +112,7 @@
         </form>
         
         
-        <!--<?php
+        <?php
             if (isset($_POST['approve'])) {
                 foreach ($regs as &$reg) {
                     if (isset($_POST[$reg["username"] . ""])) {;
@@ -128,7 +128,7 @@
                 }
                 echo '<meta http-equiv="refresh" content="0; url=http://conquestiamc.com/pendingRegs.html">';
             }
-        ?>-->
+        ?>
 	</body>
 <html>
 		
